@@ -2,6 +2,8 @@
 
 Đã đọc yêu cầu lab và phân công, thực hiện lần lượt CP0 rồi Tasks 1–8. Nguồn m1–m5: repo Day 18 `E:/K4-Track3B-DAY18-DoThanhTung-2A202602845-ProductionRAG/src`. Corpus và fixtures giữ nguyên. Chưa push/nộp link; phần tích hợp cuối thuộc Người 2.
 
+Commit code, artifacts và báo cáo: `e540cb20e992d72c847bb14dc4699d106f66cfbc`.
+
 ## Kết quả cho Người 2
 
 | Bằng chứng | Kết quả |
@@ -38,6 +40,8 @@ $env:LLM_RPM='0'; $env:ENRICHMENT_RPM='0'; $env:EVAL_RPM='0'; $env:JUDGE_RPM='0'
 ```
 
 Các biến 0 chỉ dùng khi kiểm thử mock trong shell này; xóa/đặt lại trước chạy API. Unit tests không thay số đo live. Script checker không gọi API.
+
+Phase A tự tiếp tục các điểm hợp lệ ở `.venv/ragas_measured_*.json` khi inputs/model/code khớp. Đây là cache điểm đã đo thật, không phải lượt gọi API mới; metadata `created_at` là thời điểm tạo artifact. Muốn đo một lượt hoàn toàn mới với cùng inputs/model/code, lưu lại rồi bỏ checkpoint tương ứng trước khi chạy A. Lượt A cuối trong artifacts hiện tại bắt đầu với 0 cached cells và đo đủ 200 cells qua RAGAS.
 
 ## Phần Người 2 còn phải hoàn thiện
 
