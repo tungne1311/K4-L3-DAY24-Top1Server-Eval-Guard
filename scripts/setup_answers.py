@@ -19,7 +19,10 @@ import sys
 import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import ROOT_DIR, TEST_SET_PATH, ANSWERS_PATH, GENERATION_MODEL
+from config import (ROOT_DIR, TEST_SET_PATH, ANSWERS_PATH, GENERATION_MODEL,
+                    GENERATION_MAX_TOKENS, LLM_RPM)
+
+_last_generation_call = 0.0
 
 
 def check_day18_files() -> bool:
@@ -83,6 +86,7 @@ def build_pipeline():
 
 
 def run_query(q: str, search, reranker, top_k: int, client=None) -> tuple[str, list[str], str, str | None]:
+    global _last_generation_call
     from config import OPENAI_API_KEY
 
     results = search.search(q)
@@ -96,8 +100,14 @@ def run_query(q: str, search, reranker, top_k: int, client=None) -> tuple[str, l
                 from openai import OpenAI
                 client = OpenAI()
             ctx = "\n\n".join(contexts)
+            if LLM_RPM > 0:
+                wait = 60 / LLM_RPM - (time.monotonic() - _last_generation_call)
+                if wait > 0:
+                    time.sleep(wait)
+            _last_generation_call = time.monotonic()
             resp = client.chat.completions.create(
                 model=GENERATION_MODEL,
+                max_tokens=GENERATION_MAX_TOKENS,
                 messages=[
                     {"role": "system", "content": "Trả lời CHỈ dựa trên context. Nếu không có → nói 'Không tìm thấy.'"},
                     {"role": "user",   "content": f"Context:\n{ctx}\n\nCâu hỏi: {q}"},

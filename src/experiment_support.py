@@ -5,10 +5,23 @@ import hashlib
 import inspect
 import json
 import math
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from config import JUDGE_MODEL, LATENCY_BUDGET_P95_MS
+from config import JUDGE_MODEL, JUDGE_RPM, LATENCY_BUDGET_P95_MS
+
+_last_judge_call = 0.0
+
+
+def pace_judge():
+    """Share a sequential request cap across pairwise and binary judge calls."""
+    global _last_judge_call
+    if JUDGE_RPM > 0:
+        wait = 60 / JUDGE_RPM - (time.monotonic() - _last_judge_call)
+        if wait > 0:
+            time.sleep(wait)
+    _last_judge_call = time.monotonic()
 
 
 def read_json(path):
@@ -110,8 +123,10 @@ def judge_binary(question, answer, reference, *, client=None):
     if client is None:
         from openai import OpenAI
         client = OpenAI()
+    pace_judge()
     response = client.chat.completions.create(
         model=JUDGE_MODEL, temperature=0,
+        max_tokens=512,
         response_format={"type": "json_object"},
         messages=[
             {"role": "system", "content": BINARY_SYSTEM_PROMPT},

@@ -8,6 +8,16 @@ load_dotenv()
 # --- API Keys ---
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 HF_TOKEN = os.getenv("HF_TOKEN", "")  # Optional: for HuggingFace models
+OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL", "")
+LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
+LLM_RPM = float(os.getenv("LLM_RPM", "0"))
+EVAL_MODEL = os.getenv("EVAL_MODEL", LLM_MODEL)
+EVAL_RPM = float(os.getenv("EVAL_RPM", "0"))
+EVAL_SUPPORTS_N = os.getenv("EVAL_SUPPORTS_N", "1") == "1"
+ENRICHMENT_API_KEY = os.getenv("ENRICHMENT_API_KEY", OPENAI_API_KEY)
+ENRICHMENT_BASE_URL = os.getenv("ENRICHMENT_BASE_URL", OPENAI_BASE_URL)
+ENRICHMENT_MODEL = os.getenv("ENRICHMENT_MODEL", LLM_MODEL)
+ENRICHMENT_RPM = float(os.getenv("ENRICHMENT_RPM", "0"))
 
 # --- Qdrant (same as Day 18) ---
 QDRANT_HOST = "localhost"
@@ -45,8 +55,10 @@ GUARDRAILS_CONFIG_DIR = os.path.join(ROOT_DIR, "guardrails")
 PAIR_QUESTION_IDS = (1, 5, 12, 21, 41)
 
 # --- LLM Judge ---
-GENERATION_MODEL = "gpt-4o-mini"
-JUDGE_MODEL = "gpt-4o-mini"
+GENERATION_MODEL = os.getenv("GENERATION_MODEL", "gpt-4o-mini")
+GENERATION_MAX_TOKENS = int(os.getenv("GENERATION_MAX_TOKENS", "768"))
+JUDGE_MODEL = os.getenv("JUDGE_MODEL", "gpt-4o-mini")
+JUDGE_RPM = float(os.getenv("JUDGE_RPM", "0"))
 
 # --- Guardrail latency budget ---
 LATENCY_BUDGET_P95_MS = 500  # Full guard target; Task 12 currently measures input guards only.

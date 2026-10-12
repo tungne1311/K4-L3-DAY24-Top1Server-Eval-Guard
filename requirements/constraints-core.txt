@@ -10,3 +10,5 @@ nemoguardrails==0.10.0
 openai==1.109.1
 annoy==1.17.3
 numpy==1.26.4
+# Verified with NumPy 1.26.4; Arrow 26 fails import with the lab's NumPy pin.
+pyarrow==20.0.0
