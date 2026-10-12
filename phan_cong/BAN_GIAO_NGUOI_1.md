@@ -1,6 +1,6 @@
 # Bàn giao Người 1 — hoàn thành CP0, Phase A/B
 
-Đã đọc yêu cầu lab và phân công, thực hiện lần lượt CP0 rồi Tasks 1–8. Nguồn m1–m5: repo Day 18 `E:/K4-Track3B-DAY18-DoThanhTung-2A202602845-ProductionRAG/src`. Corpus và fixtures giữ nguyên. Chưa push/nộp link; phần tích hợp cuối thuộc Người 2.
+Đã đọc yêu cầu lab và phân công, thực hiện lần lượt CP0 rồi Tasks 1–8. Nguồn m1–m5: repo Day 18 `E:/K4-Track3B-DAY18-DoThanhTung-2A202602845-ProductionRAG/src`. Corpus và fixtures giữ nguyên. Người 1 bàn giao các commit CP0/A/B trên nhánh `main`; phần tích hợp cuối và nộp bài nhóm thuộc Người 2.
 
 Commit code, artifacts và báo cáo: `e540cb20e992d72c847bb14dc4699d106f66cfbc`.
 
@@ -32,7 +32,7 @@ $env:MKL_NUM_THREADS='4'
 .\.venv\Scripts\python.exe scripts/check_person1.py
 ```
 
-Lượt này dùng key Gemini cũ từ `.env` của Day19 theo yêu cầu; chỉ lưu trong `.env` Day24 bị Git ignore. [OpenAI compatibility chính thức](https://ai.google.dev/gemini-api/docs/openai) là nguồn đối chiếu endpoint. Không đưa key vào Git/chat. Khi tái chạy, cấu hình trong `.env`: `OPENAI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/`, `OPENAI_API_KEY` chứa Gemini key; `LLM_MODEL`, `GENERATION_MODEL`, `ENRICHMENT_MODEL`, `EVAL_MODEL`, `JUDGE_MODEL` đều là model trên; `EVAL_SUPPORTS_N=0`; các caps `LLM_RPM`, `ENRICHMENT_RPM`, `EVAL_RPM`, `JUDGE_RPM`=12; `GENERATION_MAX_TOKENS`=768. Base URL/provider và model của guardrail YAML phải được Người 2 kiểm tra riêng.
+Lượt này dùng key Gemini cũ theo yêu cầu: key Day19 cho CP0; sau khi hết quota, dùng key Day10 cho lượt A hoàn chỉnh và B. Key chỉ lưu trong `.env` Day24 bị Git ignore. [OpenAI compatibility chính thức](https://ai.google.dev/gemini-api/docs/openai) là nguồn đối chiếu endpoint. Không đưa key vào Git/chat. Khi tái chạy, cấu hình trong `.env`: `OPENAI_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/`, `OPENAI_API_KEY` chứa Gemini key; `LLM_MODEL`, `GENERATION_MODEL`, `ENRICHMENT_MODEL`, `EVAL_MODEL`, `JUDGE_MODEL` đều là model trên; `EVAL_SUPPORTS_N=0`; các caps `LLM_RPM`, `ENRICHMENT_RPM`, `EVAL_RPM`, `JUDGE_RPM`=12; `GENERATION_MAX_TOKENS`=768. Base URL/provider và model của guardrail YAML phải được Người 2 kiểm tra riêng.
 
 ```powershell
 $env:LLM_RPM='0'; $env:ENRICHMENT_RPM='0'; $env:EVAL_RPM='0'; $env:JUDGE_RPM='0'
@@ -45,7 +45,7 @@ Phase A tự tiếp tục các điểm hợp lệ ở `.venv/ragas_measured_*.js
 
 ## Phần Người 2 còn phải hoàn thiện
 
-- Quota: l??t A ??u b?ng key Day19 ch?m 500 requests/ng?y; tr??c khi ch?y C c?n ki?m tra quota/provider hi?n t?i. A/B d?ng key Day10, c?c model roles ?ang ???c c?u h?nh ri?ng.
+- Quota: lượt A đầu bằng key Day19 chạm giới hạn 500 requests/ngày; trước khi chạy C cần kiểm tra quota/provider hiện tại. Lượt A hoàn chỉnh và B dùng key Day10; mỗi vai trò model có biến cấu hình riêng.
 - Full NeMo/Presidio runtime: cài full requirements từng thất bại ở Annoy 1.17.3 vì thiếu Microsoft C++ Build Tools (MSVC 14+). Bộ Người 1 không bao gồm NeMo; không khai full stack đã chạy.
 - Implement Phase C, chạy suite/clean controls/output/latency thật, điền blueprint; hoàn thiện thông tin nhóm/thành viên/deadline/commit chung trong TEAM, chạy checker toàn lab, rồi push/nộp.
 - Hai PDF scan BCTC/Nghị định 13 chưa OCR. M1 đọc 25 Markdown và một PDF có text, tạo 106 child chunks. Báo cáo A ghi rõ giới hạn coverage và mất phủ định/hàng bảng.
