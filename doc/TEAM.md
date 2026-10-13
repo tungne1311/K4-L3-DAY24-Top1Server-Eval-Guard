@@ -25,9 +25,9 @@ Người tích hợp/chạy batch/nộp link: {{Họ tên, công việc và bằ
 
 ## Môi trường và chuẩn bị trước lớp
 
-OS/Python/compiler: {{Phiên bản thực tế}}.
-Virtualenv/dependencies/imports: {{Lệnh và kết quả}}.
-Models/Qdrant/50 answers đã chuẩn bị: {{Bằng chứng và giới hạn/fallback}}.
+OS/Python/compiler: Windows NT 10.0.26300, Python 3.11.9, MSVC 14.51 x64 đã cài. `annoy==1.17.3` build thành công trong virtualenv.
+Virtualenv/dependencies/imports: `.venv` cài theo requirements/constraints; `pip check` không báo broken requirements; import NeMo/Presidio/spaCy thành công; `en_core_web_lg` đã cài. `pytest tests/test_phase_c.py -q` → 14 passed. NeMo live ran with OpenRouter using a key from ignored `.env`; no secret is committed.
+Models/Qdrant/50 answers đã chuẩn bị: Phase C evidence is in `artifacts/guard_results.json`; Phase A/B live artifacts were added by Person 1 and are documented in their individual section below.
 Nếu cài full NeMo chưa thành công, ghi lỗi thực tế; không dùng unit test pass
 hoặc pip resolve để khẳng định runtime đã chạy.
 
@@ -43,8 +43,15 @@ Sao chép mẫu cho mỗi thành viên; tiêu đề họ tên không dấu-MSSV.
 - Điều cần giải thích: worst-metric matrix đếm mọi câu; nhóm yếu chọn theo mean; faithfulness không bảo đảm đúng phiên bản; retrieval child có thể làm mất phủ định/hàng bảng. Swap cần đổi cả winner/scores; pairwise A/B khác quality binary 0/1; κ trừ agreement ngẫu nhiên. Inconsistency/longer-winner rate chưa chứng minh nguyên nhân bias.
 - Môi trường/giới hạn: dùng key Gemini cũ từ lab trước trong `.env` bị Git ignore, model thực `gemini-3.5-flash-lite` cho enrichment/generation/evaluator/judge. OpenRouter cũ hết credit nên batch fallback ban đầu đã được thay bằng batch LLM thật. Full requirements chưa cài được Annoy do thiếu MSVC 14+; người 1 dùng requirements-person1.txt và constraints-core.txt, PyArrow 20.0.0 với NumPy 1.26.4. Hai PDF scan chưa OCR. Phase C, guardrails, blueprint và phần chung TEAM thuộc người 2, chưa hoàn thiện trong phần này.
 - Nguồn/AI hỗ trợ: m1–m5 từ E:/K4-Track3B-DAY18-DoThanhTung-2A202602845-ProductionRAG/src. Codex hỗ trợ đọc yêu cầu, port/implement, kiểm thử, chạy API và viết báo cáo; kiểm chứng bằng unit tests, runtime thật và schema/source hashes. Thành viên cần tự đọc, giải thích mã và báo cáo trước khi nộp.
+### PhamDucAnh-2A202602994
+
+- Phần được giao: Phase C guardrails (Presidio PII, NeMo input/output rails, adversarial suite, latency) và Task 13 Blueprint. Các hàm Phase C hiện có trong `src/phase_c_guard.py`; phạm vi cá nhân được kiểm tra bằng test mock.
+- Bằng chứng: `artifacts/guard_results.json` (live run 2026-10-13, OpenRouter `openai/gpt-4o-mini`): attacks 20/20, clean 8/8, output 4/4. Commit SHA sẽ được ghi sau khi push.
+- Cách kiểm tra: `.\.venv\Scripts\python.exe -m pytest tests\test_phase_c.py -q` → 14 passed; `.\.venv\Scripts\python.exe scripts\run_experiments.py --phase c --live --latency-samples 20` tạo live artifact. Presidio runtime kiểm tra câu sạch và CCCD giả đạt.
+- Điều đã học: PII cần được phát hiện và ẩn danh; quyết định guard phải lấy từ rail log thay vì đoán theo câu trả lời; latency đo riêng từng lớp, có warm-up và không suy ra full-request latency.
+- Giới hạn/cách xử lý: Phase C input-layer P95 1954.874ms, vượt budget 500ms; bottleneck là remote NeMo/OpenRouter call. Phase A/B artifacts vẫn thiếu, nên không khẳng định các score/liên quan RAGAS/judge.
+- Nguồn/AI hỗ trợ: ChatGPT hỗ trợ rà soát yêu cầu, triển khai/kiểm tra offline; kết quả được đối chiếu với test mock của repo. Cần nhóm xác minh lại trên runtime live trước khi nộp.
 
 ## Cập nhật sau khi nộp
 
-{{Ghi phiên bản nộp; nếu sửa sau deadline, ghi commit/thời điểm/lý do và thông báo
-coach cho phép áp dụng bản cập nhật. Nếu không có cập nhật, ghi rõ không có.}}
+Chưa có phiên bản nộp/commit SHA trong checkout hiện tại; cần người tích hợp ghi lại SHA sau khi nhóm commit và push. Chưa xác nhận cập nhật sau deadline.

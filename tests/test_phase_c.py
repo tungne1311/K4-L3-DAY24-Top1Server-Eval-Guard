@@ -1,5 +1,6 @@
 """Student guards use injected fake engines/rails; no spaCy download or live API."""
 import asyncio
+import os
 import re
 from types import SimpleNamespace
 from unittest.mock import AsyncMock,Mock
@@ -12,6 +13,17 @@ from src.experiment_support import read_json
 from src.report_contracts import validate_input_results,validate_latency
 
 pytestmark = pytest.mark.student
+
+
+def test_openrouter_key_configures_openai_compatible_endpoint(monkeypatch):
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-or-")
+    monkeypatch.delenv("OPENAI_API_BASE", raising=False)
+    monkeypatch.delenv("OPENAI_BASE_URL", raising=False)
+
+    phase._configure_openai_compatible_endpoint()
+
+    assert os.environ["OPENAI_API_BASE"] == "https://openrouter.ai/api/v1"
+    assert os.environ["OPENAI_BASE_URL"] == "https://openrouter.ai/api/v1"
 
 
 @pytest.fixture
@@ -48,6 +60,18 @@ def test_pii_clean(pii_engines):
     result=phase.pii_scan(text,*pii_engines)
     assert result=={"has_pii":False,"entities":[],"anonymized":text}
     pii_engines[0].analyze.assert_called_once()
+
+
+def test_pii_scan_ignores_non_sensitive_date_entities():
+    analyzer = SimpleNamespace(analyze=Mock(return_value=[
+        SimpleNamespace(entity_type="DATE_TIME", start=7, end=11, score=.85)
+    ]))
+    anonymizer = SimpleNamespace(anonymize=Mock())
+
+    assert phase.pii_scan("Policy 2024.", analyzer, anonymizer) == {
+        "has_pii": False, "entities": [], "anonymized": "Policy 2024."
+    }
+    anonymizer.anonymize.assert_not_called()
 
 
 @pytest.mark.parametrize("blocked",[True,False])
