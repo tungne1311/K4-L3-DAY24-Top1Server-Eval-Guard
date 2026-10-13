@@ -8,7 +8,7 @@ Trưởng nhóm/người nộp: **Đỗ Thanh Tùng — 2A202602845** (đã xác
 
 Ngày lab/deadline áp dụng: chưa được cung cấp thông báo lớp để xác nhận ngày cụ thể. Quy định repo: 23:59 ngày diễn ra lab, Asia/Ho_Chi_Minh (UTC+07:00), áp dụng điều chỉnh của coach. Ngày tạo artifacts và ngày push không được dùng thay ngày lab/deadline.
 
-Commit mã và artifacts A/B/C đã tích hợp: `5214e84759afd5e98e956cfa83119f1a94325dfa`. SHA bản hoàn thiện tài liệu được ghi nhận sau khi tạo commit, trước khi bàn giao link nộp.
+Commit dùng để chấm (bản hoàn thiện mã/artifacts/báo cáo): [`27d6310ccaeb62b1412054a4860ee30c1c26235b`](https://github.com/tungne1311/K4-L3-DAY24-Top1Server-Eval-Guard/commit/27d6310ccaeb62b1412054a4860ee30c1c26235b). Bản này kế thừa mã/artifacts A/B/C ở `5214e84759afd5e98e956cfa83119f1a94325dfa` và bổ sung TEAM/blueprint hoàn chỉnh. Commit ghi nhận SHA này chỉ cập nhật thông tin bàn giao trong TEAM; code, artifacts và số đo giữ nguyên.
 
 ## Thành viên và phân công
 
