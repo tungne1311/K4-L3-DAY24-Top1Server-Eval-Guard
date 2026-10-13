@@ -1,5 +1,7 @@
 # Bàn giao Người 1 — hoàn thành CP0, Phase A/B
 
+Đây là ghi nhận bàn giao Người 1 ngày 12/10/2026. Cập nhật ngày 13/10/2026: Người 2 đã push Phase C ở `5214e84759afd5e98e956cfa83119f1a94325dfa`; Tùng tích hợp và hoàn thiện [TEAM](../doc/TEAM.md) cùng [blueprint](../doc/reports/blueprint.md). Bản chung có đủ bốn artifacts, 113 tests offline pass và checker toàn lab 0 failed checks. Các mục còn thiếu/lỗi môi trường ghi bên dưới mô tả thời điểm bàn giao cũ; trạng thái nộp, môi trường riêng và SHA bản chấm xem TEAM.
+
 Đã đọc yêu cầu lab và phân công, thực hiện lần lượt CP0 rồi Tasks 1–8. Nguồn m1–m5: repo Day 18 `E:/K4-Track3B-DAY18-DoThanhTung-2A202602845-ProductionRAG/src`. Corpus và fixtures giữ nguyên. Người 1 bàn giao các commit CP0/A/B trên nhánh `main`; phần tích hợp cuối và nộp bài nhóm thuộc Người 2.
 
 Commit code, artifacts và báo cáo: `e540cb20e992d72c847bb14dc4699d106f66cfbc`.
@@ -43,7 +45,7 @@ Các biến 0 chỉ dùng khi kiểm thử mock trong shell này; xóa/đặt l�
 
 Phase A tự tiếp tục các điểm hợp lệ ở `.venv/ragas_measured_*.json` khi inputs/model/code khớp. Đây là cache điểm đã đo thật, không phải lượt gọi API mới; metadata `created_at` là thời điểm tạo artifact. Muốn đo một lượt hoàn toàn mới với cùng inputs/model/code, lưu lại rồi bỏ checkpoint tương ứng trước khi chạy A. Lượt A cuối trong artifacts hiện tại bắt đầu với 0 cached cells và đo đủ 200 cells qua RAGAS.
 
-## Phần Người 2 còn phải hoàn thiện
+## Các mục giao Người 2 tại thời điểm 12/10/2026
 
 - Quota: lượt A đầu bằng key Day19 chạm giới hạn 500 requests/ngày; trước khi chạy C cần kiểm tra quota/provider hiện tại. Lượt A hoàn chỉnh và B dùng key Day10; mỗi vai trò model có biến cấu hình riêng.
 - Full NeMo/Presidio runtime: cài full requirements từng thất bại ở Annoy 1.17.3 vì thiếu Microsoft C++ Build Tools (MSVC 14+). Bộ Người 1 không bao gồm NeMo; không khai full stack đã chạy.
@@ -52,4 +54,4 @@ Phase A tự tiếp tục các điểm hợp lệ ở `.venv/ragas_measured_*.js
 
 Các file `src/phase_c_guard.py`, `guardrails/`, `doc/reports/blueprint.md` giữ nguyên trong phần Người 1. Bằng chứng chi tiết nằm trong [failure_clusters](../doc/reports/failure_clusters.md), [bias_report](../doc/reports/bias_report.md) và mục INDIVIDUAL của TEAM.
 
-Kiểm tra cuối: `scripts/check_person1.py` pass CP0/A/B, hashes và hai báo cáo; quét secret và `git diff --check` pass. `scripts/check_lab.py` pass toàn bộ phần Người 1, còn đúng 4 failed checks: placeholder chung trong TEAM, blueprint chưa điền, Phase C còn TODO và chưa có `guard_results.json`. Đây không phải điểm rubric.
+Kiểm tra lúc bàn giao 12/10/2026: `scripts/check_person1.py` pass CP0/A/B, hashes và hai báo cáo; quét secret và `git diff --check` pass. `scripts/check_lab.py` lúc đó pass toàn bộ phần Người 1, còn đúng 4 failed checks: placeholder chung trong TEAM, blueprint chưa điền, Phase C còn TODO và chưa có `guard_results.json`. Đây không phải điểm rubric; trạng thái bản chung ngày 13/10/2026 đã cập nhật ở đầu tài liệu.
